@@ -75,11 +75,12 @@ const pushFunds = async (req, res) => {
             httpsAgent: new (require('https').Agent)({
                 cert: fs.readFileSync(config.visa.certPath),
                 key: fs.readFileSync(config.visa.keyPath),
-                rejectUnauthorized: false
+                rejectUnauthorized: true
             })
         });
         res.status(200).json({ success: true, message: 'Transaction Successfull', data: response.data });
     } catch (error) {
+      console.log(error)
         res.status(error.response ? error.response.status : 500).json({
             message: error.message,
             data: error.response ? error.response.data : null
